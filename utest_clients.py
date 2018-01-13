@@ -10,32 +10,6 @@ def msg_to_string(msg):
 		return '(none)'
 	return msg
 		
-def test01():
-	print("\n TEST 01")
-	tcp_addr = ipcCommon.get_tcp_address()
-	tcp_port = ipcCommon.get_tcp_port_number()
-	client1 = ipcClient.ipcClient('Client1', tcp_addr, tcp_port)
-	client1.sendMessage('Client2', 'msg1')
-	client2 = ipcClient.ipcClient('Client2', tcp_addr, tcp_port)
-	msg = None
-	msg = client2.getMessage('Client1')
-	print("msg='{}'".format(msg_to_string(msg)))
-	msg = None
-
-	client1.sendMessage('Client2', 'msg2')
-	client1.sendMessage('Client2', 'msg3')
-	msg = None
-	msg = client2.getMessage('Client1')
-	print("msg='{}'".format(msg))
-	msg = None
-	msg = client2.getMessage('Client1')
-	print("msg='{}'".format(msg))
-	msg = None
-	msg = client2.getMessage('Client1')
-	print("msg='{}'".format(msg))
-
-	client1.clearServer()
-
 def test02():
 	print("\n TEST 02")
 	client1 = ipcCacClient.ipcCacClient('Client1')
@@ -95,7 +69,6 @@ def test_last():
 	client1.closeChannel()
 
 def main():
-	test01()
 	test02()
 	test03()
 	test04()
