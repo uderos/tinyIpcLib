@@ -72,14 +72,12 @@ class ipcServer:
 		to_node = fields[2]
 		msg = fields[3]
 		self.msg_container.addMessage(from_node, to_node, msg)
-		#self.msg_container.dump() # UBEDEBUG
 
 
 	def __process_msg_pull_request(self, fields, session_socket):
 		if not len(fields) == 3:
 			print("Invalid msg pull request: '{}'".format(fields))
 			return
-		#self.msg_container.dump() # UBEDEBUG
 		from_node = fields[1]
 		to_node = fields[2]
 		msg = self.msg_container.getMessage(from_node, to_node)

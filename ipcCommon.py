@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 
+
 class ipcCommon:
+	""" Utlilty static class.
+		It provides common constants and utility functions.
+	"""
+
 	def __init__(self):
 		pass
 
