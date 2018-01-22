@@ -22,15 +22,15 @@ class peekData:
 			if self.data[i][0][0] == peekerName:
 				self.data.pop(i)
 				return
-
 	def addMessage(self, fromNode, toNode, msg):
 		new_elem = (fromNode, toNode, msg)
 		for elem in self.data:
 			header = elem[0]
 			msg_list = elem[1]
 			maxMem = header[1]
-			if (maxMem == 0) or (maxMem > len(msg_list)):
-				msg_list.append(new_elem)
+			if (maxMem > 0) and (len(msg_list) >= maxMem):
+				msg_list.pop(0)
+			msg_list.append(new_elem)
 
 	def getMessage(self, peekerName):
 		for elem in self.data:
@@ -79,8 +79,8 @@ def utest1():
 	test_assert(p.getMessage('p1') is None)
 	test_assert(p.getMessage('p1') is None)
 
-	test_assert(p.getMessage('p2') == ('f1', 't1', 'm1'))
-	test_assert(p.getMessage('p2') == ('f2', 't2', 'm2'))
+	test_assert(p.getMessage('p2') == ('f3', 't3', 'm3'))
+	test_assert(p.getMessage('p2') == ('f4', 't4', 'm4'))
 	test_assert(p.getMessage('p2') is None)
 	test_assert(p.getMessage('p2') is None)
 
@@ -108,6 +108,7 @@ def utest2():
 def unit_test():
 	utest1()
 	utest2()
+	print("\n == SUCCESS ==")
 
 if __name__ == '__main__':
 	unit_test()

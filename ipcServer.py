@@ -4,6 +4,7 @@ import socket
 import time
 from ipcCommon import ipcCommon
 import msgContainer
+import peekData
 
 
 class ipcServer:
@@ -12,6 +13,7 @@ class ipcServer:
 		self.tcp_port = tcp_port
 		self.server_socket = None
 		self.msg_container = msgContainer.msgContainer()
+		self.peek_data = peekData.peekData()
 		self.server_running_flag = True
 		self.client_running_flag = True
 
@@ -54,10 +56,23 @@ class ipcServer:
 		cmd = fields[0]
 		if cmd == ipcCommon.get_cmd_send_message():
 			self.__process_msg_push_request(fields, session_socket)
+
 		elif cmd == ipcCommon.get_cmd_get_message():
 			self.__process_msg_pull_request(fields, session_socket)
+
+		elif cmd == ipcCommon.get_cmd_add_peeker():
+			self.__process_add_peeker_request(fields, session_socket)
+
+		elif cmd == ipcCommon.get_cmd_remove_peeker():
+			self.__process_remove_peeker_request(fields, session_socket)
+
+		elif cmd == ipcCommon.get_cmd_peek_message():
+			self.__process_msg_peek_request(fields, session_socket)
+
 		elif cmd == ipcCommon.get_cmd_clear_server():
 			self.msg_container.clear()
+			self.peek_data.clear()
+
 		elif cmd == ipcCommon.get_cmd_stop_server():
 			self.server_running_flag = False
 		else:
@@ -85,6 +100,33 @@ class ipcServer:
 			msg = ""
 		print("ipcServer: ==> '{}'".format(msg))
 		ipcCommon.send_string(session_socket, msg)
+
+	def __process_msg_peek_request(self, fields, session_socket):
+		if not len(fields) == 2:
+			print("Invalid msg peek request: '{}'".format(fields))
+			return
+		peeker_name = fields[1]
+		msg = self.peek_data.getMessage(peeker_name)
+		if msg is None:
+			msg = ""
+		print("ipcServer: ==> '{}'".format(msg))
+		ipcCommon.send_string(session_socket, msg)
+
+
+	def __process_add_peeker_request(self, fields, session_socket):
+		if not len(fields) == 2:
+			print("Invalid add peeker request: '{}'".format(fields))
+			return
+		peeker_name = fields[1]
+		self.peek_data.addPeeker(peeker_name)
+
+
+	def __process_remove_peeker_request(self, fields, session_socket):
+		if not len(fields) == 2:
+			print("Invalid remove peeker request: '{}'".format(fields))
+			return
+		peeker_name = fields[1]
+		self.peek_data.removePeeker(peeker_name)
 
 
 	def __cleanup_at_exit(self):

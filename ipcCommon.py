@@ -21,8 +21,17 @@ class ipcCommon:
 	def get_cmd_get_message():
 		return str('GetMsg')
 
+	def get_cmd_add_peeker():
+		return str('AddPeeker')
+
+	def get_cmd_remove_peeker():
+		return str('RemovePeeker')
+
 	def get_cmd_clear_server():
 		return str('ClearMsgContainer')
+
+	def get_cmd_peek_message():
+		return str('PeekMsg')
 
 	def get_cmd_stop_server():
 		return str('StopServer')

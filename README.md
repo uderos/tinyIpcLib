@@ -12,5 +12,10 @@ Notes:
 - It was *not* designed for optimal performances or to teach other people how to write software.
 - It is working fine in my simple bb84 protocol simulation, but there may still be bugs I have not found.
 
+Updates:
+Jan 22, 2018
+Added ability for each node to peek at messages on the channel.
+A node has to call startPeeking() to start collecting the messages on the channel.
+Any call to peekMessage() then returns a tuple containing the name of thew sender node, the name of the destination node and the message.
 
 

@@ -63,6 +63,21 @@ def test05():
 	print("BitList2 = {}".format(bl2))
 	client1.clearServer()
 
+def test06():
+	print("\n TEST 05")
+	client1 = ipcCacClient.ipcCacClient('Client1')
+	client2 = ipcCacClient.ipcCacClient('Client2')
+	client3 = ipcCacClient.ipcCacClient('ThePeeker')
+	client1.clearServer()
+	client3.startPeeking()
+
+	l12 = [0, 0, 0, 0]
+	l21 = [1, 0, 0, 1]
+	client1.sendValueList('Client2', l1)
+	client2.sendValueList('Client1', l2)
+
+	pm1 = client3.peekMessage()
+	pm2 = client3.peekMessage()
 
 def test_last():
 	client1 = ipcCacClient.ipcCacClient('Client1')

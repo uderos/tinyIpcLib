@@ -77,6 +77,15 @@ class ipcCacClient:
 			raise RuntimeError("{}: Unexpected msg from {} waiting for ack: {}".
 				format(self.name, from_who, msg))
 
+	def startPeeking(self):
+		self.ipc_client.startPeeking()
+
+	def stopPeeking(self):
+		self.ipc_client.stopPeeking()
+
+	def peekMessage(self): # Warning - it may be None
+		return self.ipc_client.peekMessage()
+
 	def clearServer(self):
 		""" Ask the classical communication server to clear any transient data
 		"""

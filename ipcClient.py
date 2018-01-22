@@ -38,6 +38,36 @@ class ipcClient:
 			time.sleep(1)
 		return None
 
+	def startPeeking():
+		self.__connect_to_server()
+		server_msg = "{}|{}".format(ipcCommon.get_cmd_add_peeker(), self.name);
+		print("ipcClient({}) ==> '{}'".format(self.name, server_msg))
+		ipcCommon.send_string(self.tcp_socket, server_msg)
+		self.close()
+
+	def stopPeeking():
+		self.__connect_to_server()
+		server_msg = "{}|{}".format(ipcCommon.get_cmd_remove_peeker(), self.name);
+		print("ipcClient({}) ==> '{}'".format(self.name, server_msg))
+		ipcCommon.send_string(self.tcp_socket, server_msg)
+		self.close()
+
+	def peekMessage(self):
+		server_msg_out = "{}|{}".format(
+			ipcCommon.get_cmd_peek_message() ,self.name)
+		self.__connect_to_server()
+		print("ipcClient({}) ==> '{}'".format(self.name, server_msg_out))
+		ipcCommon.send_string(self.tcp_socket, server_msg_out)
+		raw_msg_in = ipcCommon.recv_data(self.tcp_socket)
+		#print("ipcClient({}) RawReply: '{}'".format(self.name, raw_msg_in))
+		if not ((raw_msg_in is None) or (len(raw_msg_in) == 0)):
+			msg_in = raw_msg_in.decode()
+		print("ipcClient({}) <== '{}'".format(self.name, msg_in))
+		if (not msg_in is None) and (len(msg_in) == 0):
+			msg_in = None
+		self.close()
+		return msg_in
+
 	def clearServer(self):
 		self.__connect_to_server()
 		server_msg = ipcCommon.get_cmd_clear_server()
